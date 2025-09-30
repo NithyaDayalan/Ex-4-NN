@@ -125,11 +125,12 @@ from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.impute import SimpleImputer
 import numpy as np
 df = pd.read_csv("2020-2025.csv", encoding="latin1")
+print(df)
 a = df.drop("Country", axis=1)
 imputer = SimpleImputer(strategy="mean")
 a = imputer.fit_transform(a)
 growth = ((df["2025"] - df["2020"]) / df["2020"])
-growth = growth.fillna(0) 
+growth = growth.fillna(0)
 b = pd.qcut(growth, q=3, labels=["Low", "Medium", "High"])
 training_a, testing_a, training_b, testing_b = train_test_split(a, b, test_size=0.25, random_state=42)
 myscaler = StandardScaler()
@@ -138,12 +139,14 @@ testing_a = myscaler.transform(testing_a)
 m1 = MLPClassifier(hidden_layer_sizes=(12, 13, 14), activation='relu', solver='adam', max_iter=2500, random_state=42)
 m1.fit(training_a, training_b)
 predicted_values = m1.predict(testing_a)
+print("\nConfusion Matrix:")
 print(confusion_matrix(testing_b, predicted_values))
+print("\nClassification Report:")
 print(classification_report(testing_b, predicted_values))
-</pre>	
+</pre>
 
 <H3>Output :</H3>
-<img width="491" height="220" alt="image" src="https://github.com/user-attachments/assets/d7d729de-9ddb-42cb-a8f0-b5051ef490ee" />
+<img width="651" height="534" alt="image" src="https://github.com/user-attachments/assets/a4b62877-416d-4d8d-a81c-7c946e211202" />
 
 <H3>Result :</H3>
 Thus, MLP is implemented for multi-classification using python.
